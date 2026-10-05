@@ -25,7 +25,7 @@
     font-size: 16px;
   }
   a { color: inherit; text-decoration: none; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ===== 顶栏 ===== */
   header {
@@ -98,7 +98,7 @@
     color: var(--muted);
     font-size: 16px;
   }
-  .home .go-chat {
+  .home .go-btn {
     display: inline-block;
     margin-top: 36px;
     padding: 11px 30px;
@@ -112,93 +112,96 @@
     transition: background-color .2s, color .2s, box-shadow .2s, transform .15s;
     animation: breathe 3s ease-in-out infinite;
   }
-  .home .go-chat:hover {
+  .home .go-btn:hover {
     background: var(--accent);
     color: #0d1218;
-    box-shadow: 0 0 30px rgba(77, 166, 255, .6), inset 0 0 12px rgba(14, 20, 18, .2);
+    box-shadow: 0 0 30px rgba(77, 166, 255, .6), inset 0 0 12px rgba(13, 18, 24, .2);
     transform: translateY(-1px);
   }
 
   /* 首页入场：标题、副标题、按钮依次浮现 */
-  .view.in h1, .view.in .sub, .view.in .go-chat {
+  .view.in h1, .view.in .sub, .view.in .go-btn {
     animation: rise .55s ease-out both;
   }
   .view.in .sub { animation-delay: .12s; }
-  .view.in .go-chat { animation-delay: .24s; }
+  .view.in .go-btn { animation-delay: .24s; }
 
-  /* ===== 聊天室 ===== */
-  .chat-head {
+  /* ===== 教程 ===== */
+  .tut-head2 {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: baseline;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 6px;
   }
-  .chat-head h2 {
+  .tut-head2 h2 {
     font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
     color: #c9e4ff;
-    text-shadow: 0 0 8px rgba(77, 166, 255, .4);
+    text-shadow: 0 0 10px rgba(77, 166, 255, .4);
   }
-  .chat-head .open-out {
-    font-size: 13px;
-    color: var(--muted);
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: color .15s, background-color .15s;
+  .tut-head2 .note { color: var(--muted); font-size: 14px; }
+  .tut-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 22px;
   }
-  .chat-head .open-out:hover {
-    color: var(--accent);
-    background: var(--accent-dim);
-  }
-  .chat-frame {
-    width: 100%;
-    height: calc(100vh - 160px);
-    min-height: 480px;
+  .tut-card {
     border: 1px solid var(--line);
     border-radius: 12px;
     background: var(--bg-soft);
-    display: block;
-    box-shadow: 0 0 24px rgba(77, 166, 255, .08);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
   }
-  .chat-open {
-    text-align: center;
-    padding: 70px 20px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--bg-soft);
+  .tut-card:hover {
+    border-color: rgba(77, 166, 255, .45);
+    box-shadow: 0 0 18px rgba(77, 166, 255, .12);
   }
-  .chat-open p {
-    color: var(--muted);
-    font-size: 15px;
-    max-width: 420px;
-    margin: 0 auto;
+  .tut-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  .chat-open .open-btn {
-    display: inline-block;
-    margin-top: 26px;
-    padding: 11px 30px;
-    border: 1.5px solid var(--accent);
-    border-radius: 8px;
-    color: var(--accent);
-    background: var(--accent-dim);
+  .tut-title {
     font-size: 16px;
-    letter-spacing: 1px;
-    box-shadow: 0 0 16px rgba(77, 166, 255, .22), inset 0 0 10px rgba(77, 166, 255, .06);
-    transition: background-color .2s, color .2s, box-shadow .2s, transform .15s;
+    font-weight: 600;
+    color: #d8ecff;
   }
-  .chat-open .open-btn:hover {
-    background: var(--accent);
-    color: #0d1218;
-    box-shadow: 0 0 28px rgba(77, 166, 255, .55), inset 0 0 12px rgba(13, 18, 24, .2);
-    transform: translateY(-1px);
-  }
-  .chat-tip {
-    margin-top: 10px;
+  .tut-title small {
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 400;
     color: var(--muted);
-    font-size: 14px;
   }
+  .tut-desc {
+    flex: 1;
+    font-size: 14px;
+    color: var(--muted);
+    min-width: 120px;
+  }
+  .tut-toggle {
+    font-size: 14px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .tut-code {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #0a0f14;
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #c9e2ff;
+  }
+  .tut-card.open .tut-code { display: block; }
+  .view.in h2 { animation: rise .5s ease-out both; }
 
   /* ===== 交流群 ===== */
   .group { padding-top: 24px; text-align: center; }
@@ -257,11 +260,11 @@
     text-shadow: 0 0 10px rgba(77, 166, 255, .4);
   }
   .about p { margin-bottom: 10px; }
-  .about .to-chat {
+  .about .to-tut {
     color: var(--accent);
     font-weight: 600;
   }
-  .about .to-chat:hover { text-decoration: underline; }
+  .about .to-tut:hover { text-decoration: underline; }
 
   /* ===== 页脚 ===== */
   footer {
@@ -291,11 +294,13 @@
     50%      { box-shadow: 0 0 26px rgba(77, 166, 255, .38), inset 0 0 10px rgba(77, 166, 255, .1); }
   }
 
+  @media (max-width: 640px) {
+    .tut-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 520px) {
     main { padding-top: 28px; }
     .bar { padding: 8px 14px; }
     .home { padding-top: 40px; }
-    .chat-frame { height: calc(100vh - 150px); min-height: 420px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -313,7 +318,7 @@
     <a href="#/home" class="site-name">小腾</a>
     <nav>
       <a href="#/home" data-view="home">首页</a>
-      <a href="#/chat" data-view="chat">聊天室</a>
+      <a href="#/tutorial" data-view="tutorial">教程</a>
       <a href="#/group" data-view="group">交流群</a>
       <a href="#/about" data-view="about">关于</a>
     </nav>
@@ -324,22 +329,113 @@
   <!-- ===== 视图：首页 ===== -->
   <section class="view home" id="view-home">
     <h1>我是小腾</h1>
-    <p class="sub">这个站现在只有一样东西：聊天室。进来聊两句吧。</p>
-    <a class="go-chat" href="#/chat">进聊天室</a>
+    <p class="sub">这个站放我学 C++ 的笔记，还有一个 QQ 交流群。</p>
+    <a class="go-btn" href="#/tutorial">看教程</a>
   </section>
 
-  <!-- ===== 视图：聊天室 ===== -->
-  <section class="view" id="view-chat">
-    <div class="chat-head">
-      <h2>聊天室</h2>
-      <a class="open-out" href="http://47.92.211.180:8080/" target="_blank" rel="noopener">新窗口打开</a>
+  <!-- ===== 视图：教程 ===== -->
+  <section class="view" id="view-tutorial">
+    <div class="tut-head2">
+      <h2>C++ 教程</h2>
+      <span class="note">都是基础，我边学边记的。点卡片展开代码。</span>
     </div>
-    <div id="chat-embed"></div>
-    <div id="chat-open" class="chat-open" style="display:none">
-      <p>这个页面是 https，浏览器不让直接嵌 http 的聊天室，点下面的按钮在新窗口打开。</p>
-      <a class="open-btn" href="http://47.92.211.180:8080/" target="_blank" rel="noopener">打开聊天室</a>
+
+    <div class="tut-grid">
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">变量<small>int / double / char</small></span>
+          <span class="tut-desc">先定类型再起名，整数用 int，小数用 double。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int age = 13;
+double pi = 3.14;
+char c = 'A';
+string name = "小腾";</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">数组<small>array</small></span>
+          <span class="tut-desc">一串同类型的数据，用下标访问，从 0 开始数。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int a[5] = {1, 2, 3, 4, 5};
+a[0] = 99;          // 改第 1 个
+cout &lt;&lt; a[2];       // 第 3 个，是 3</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">字符串<small>string</small></span>
+          <span class="tut-desc">存文字用的，长度、拼接都有人写好。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>string s = "hello";
+cout &lt;&lt; s.size();   // 长度，5
+s += " world";      // 拼接</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">指针<small>pointer</small></span>
+          <span class="tut-desc">存地址的变量，* 取值，&amp; 取址。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int x = 10;
+int* p = &amp;x;    // p 存 x 的地址
+cout &lt;&lt; *p;     // 取地址里的值，10</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">条件判断<small>if / else</small></span>
+          <span class="tut-desc">成立走 if，不成立走 else。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int score = 85;
+if (score &gt;= 60) {
+    cout &lt;&lt; "及格";
+} else {
+    cout &lt;&lt; "不及格";
+}</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">for 循环<small>for</small></span>
+          <span class="tut-desc">知道循环几次就用它。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>for (int i = 0; i &lt; 5; i++) {
+    cout &lt;&lt; i &lt;&lt; " ";   // 0 1 2 3 4
+}</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">while 循环<small>while</small></span>
+          <span class="tut-desc">条件成立就一直循环，注意别写成死循环。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int n = 0;
+while (n &lt; 5) {
+    n++;
+}
+cout &lt;&lt; n;   // 5</code></pre>
+      </article>
+
+      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
+        <div class="tut-head">
+          <span class="tut-title">函数<small>function</small></span>
+          <span class="tut-desc">把一段逻辑包起来起个名，到处调用。</span>
+          <span class="tut-toggle">展开</span>
+        </div>
+        <pre class="tut-code"><code>int add(int a, int b) {
+    return a + b;
+}
+int sum = add(3, 4);   // 7</code></pre>
+      </article>
     </div>
-    <p class="chat-tip">发送格式：[用户名] 要说的话 · 连接：ws://47.92.211.180:8080/chat</p>
   </section>
 
   <!-- ===== 视图：交流群 ===== -->
@@ -354,8 +450,8 @@
   <section class="view about" id="view-about">
     <h2>关于</h2>
     <p>我是小腾，这是我自己的主页。</p>
-    <p>现在站里只有一个聊天室，以后想到什么再往这放。</p>
-    <p>有什么想说的，去<a class="to-chat" href="#/chat">聊天室</a>喊一声就行。</p>
+    <p>现在放了一些 C++ 基础笔记和一个交流群，以后想到什么再往这放。</p>
+    <p>想学 C++ 的，去<a class="to-tut" href="#/tutorial">教程</a>翻翻。</p>
   </section>
 </main>
 
@@ -365,7 +461,13 @@
 </footer>
 
 <script>
-  var views = ["home", "chat", "group", "about"];
+  var views = ["home", "tutorial", "group", "about"];
+
+  function toggleCard(card) {
+    card.classList.toggle("open");
+    var t = card.querySelector(".tut-toggle");
+    t.textContent = card.classList.contains("open") ? "收起" : "展开";
+  }
 
   function copyGroup(btn) {
     var num = "1128639237";
@@ -390,6 +492,15 @@
       fallback();
     }
   }
+
+  document.querySelectorAll(".tut-card").forEach(function (c) {
+    c.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleCard(c);
+      }
+    });
+  });
 
   function replay(viewEl) {
     viewEl.classList.remove("in");
@@ -419,18 +530,6 @@
 
   window.addEventListener("hashchange", route);
   route();
-
-  // 聊天室是 http，https 页面（比如 GitHub Pages）禁止嵌 http 的 iframe：
-  // 非 https 环境动态插入 iframe 内嵌；https 环境换成“打开聊天室”按钮
-  if (location.protocol === "https:") {
-    document.getElementById("chat-open").style.display = "block";
-  } else {
-    var f = document.createElement("iframe");
-    f.className = "chat-frame";
-    f.src = "http://47.92.211.180:8080/";
-    f.title = "聊天室";
-    document.getElementById("chat-embed").appendChild(f);
-  }
 </script>
 </body>
 </html>
