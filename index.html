@@ -194,6 +194,11 @@
     box-shadow: 0 0 28px rgba(77, 166, 255, .55), inset 0 0 12px rgba(13, 18, 24, .2);
     transform: translateY(-1px);
   }
+  .chat-tip {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
 
   /* ===== 交流群 ===== */
   .group { padding-top: 24px; text-align: center; }
@@ -334,6 +339,7 @@
       <p>这个页面是 https，浏览器不让直接嵌 http 的聊天室，点下面的按钮在新窗口打开。</p>
       <a class="open-btn" href="http://47.92.211.180:8080/" target="_blank" rel="noopener">打开聊天室</a>
     </div>
+    <p class="chat-tip">发送格式：[用户名] 要说的话 · 连接：ws://47.92.211.180:8080/chat</p>
   </section>
 
   <!-- ===== 视图：交流群 ===== -->
@@ -428,4 +434,3 @@
 </script>
 </body>
 </html>
-<!-- （注：内容由AI生成） -->
