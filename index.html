@@ -162,6 +162,38 @@
     display: block;
     box-shadow: 0 0 24px rgba(77, 166, 255, .08);
   }
+  .chat-open {
+    text-align: center;
+    padding: 70px 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-soft);
+  }
+  .chat-open p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .chat-open .open-btn {
+    display: inline-block;
+    margin-top: 26px;
+    padding: 11px 30px;
+    border: 1.5px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 16px rgba(77, 166, 255, .22), inset 0 0 10px rgba(77, 166, 255, .06);
+    transition: background-color .2s, color .2s, box-shadow .2s, transform .15s;
+  }
+  .chat-open .open-btn:hover {
+    background: var(--accent);
+    color: #0d1218;
+    box-shadow: 0 0 28px rgba(77, 166, 255, .55), inset 0 0 12px rgba(13, 18, 24, .2);
+    transform: translateY(-1px);
+  }
 
   /* ===== 交流群 ===== */
   .group { padding-top: 24px; text-align: center; }
@@ -297,7 +329,11 @@
       <h2>聊天室</h2>
       <a class="open-out" href="http://47.92.211.180:8080/" target="_blank" rel="noopener">新窗口打开</a>
     </div>
-    <iframe class="chat-frame" src="http://47.92.211.180:8080/" title="聊天室"></iframe>
+    <div id="chat-embed"></div>
+    <div id="chat-open" class="chat-open" style="display:none">
+      <p>这个页面是 https，浏览器不让直接嵌 http 的聊天室，点下面的按钮在新窗口打开。</p>
+      <a class="open-btn" href="http://47.92.211.180:8080/" target="_blank" rel="noopener">打开聊天室</a>
+    </div>
   </section>
 
   <!-- ===== 视图：交流群 ===== -->
@@ -377,6 +413,19 @@
 
   window.addEventListener("hashchange", route);
   route();
+
+  // 聊天室是 http，https 页面（比如 GitHub Pages）禁止嵌 http 的 iframe：
+  // 非 https 环境动态插入 iframe 内嵌；https 环境换成“打开聊天室”按钮
+  if (location.protocol === "https:") {
+    document.getElementById("chat-open").style.display = "block";
+  } else {
+    var f = document.createElement("iframe");
+    f.className = "chat-frame";
+    f.src = "http://47.92.211.180:8080/";
+    f.title = "聊天室";
+    document.getElementById("chat-embed").appendChild(f);
+  }
 </script>
 </body>
 </html>
+<!-- （注：内容由AI生成） -->
