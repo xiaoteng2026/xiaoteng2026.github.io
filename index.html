@@ -1,535 +1,175 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>小腾的主页</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1218' stroke='%234da6ff' stroke-width='3'/%3E%3Ctext x='32' y='43' font-size='34' text-anchor='middle' fill='%234da6ff' font-family='sans-serif'%3E腾%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700&display=swap">
+<meta charset="utf-8">
+<title>软件分享站</title>
 <style>
-  :root {
-    --bg: #0d1218;
-    --bg-soft: #131a21;
-    --line: #22303c;
-    --ink: #e6edf2;
-    --muted: #8a99a6;
-    --accent: #4da6ff;
-    --accent-dim: rgba(77, 166, 255, .1);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-    color: var(--ink);
-    background: var(--bg);
-    line-height: 1.7;
-    font-size: 16px;
-  }
-  a { color: inherit; text-decoration: none; }
-  a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* ===== 顶栏 ===== */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-  }
-  .bar {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .site-name {
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    color: #c9e4ff;
-    text-shadow: 0 0 6px rgba(77, 166, 255, .55), 0 0 16px rgba(77, 166, 255, .3);
-  }
-  nav { display: flex; gap: 4px; }
-  nav a {
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 15px;
-    color: var(--muted);
-    transition: color .15s, background-color .15s, text-shadow .15s;
-  }
-  nav a:hover { color: var(--ink); background: var(--bg-soft); }
-  nav a.active {
-    color: var(--accent);
-    font-weight: 600;
-    background: var(--accent-dim);
-    text-shadow: 0 0 10px rgba(77, 166, 255, .45);
-  }
-
-  /* ===== 视图容器 ===== */
-  main { max-width: 880px; margin: 0 auto; padding: 40px 20px 60px; }
-  .view { display: none; }
-  .view.active { display: block; animation: viewIn .35s ease-out; }
-
-  /* ===== 首页 ===== */
-  .home {
-    padding-top: 56px;
-    text-align: center;
-  }
-  .home h1 {
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-weight: 700;
-    font-size: clamp(36px, 6.5vw, 56px);
-    letter-spacing: 3px;
-    color: #d8ecff;
-    text-shadow:
-      0 0 8px rgba(77, 166, 255, .7),
-      0 0 22px rgba(77, 166, 255, .45),
-      0 0 60px rgba(77, 166, 255, .25);
-  }
-  .home .sub {
-    margin: 20px auto 0;
-    max-width: 420px;
-    color: var(--muted);
-    font-size: 16px;
-  }
-  .home .go-btn {
-    display: inline-block;
-    margin-top: 36px;
-    padding: 11px 30px;
-    border: 1.5px solid var(--accent);
-    border-radius: 8px;
-    color: var(--accent);
-    background: var(--accent-dim);
-    font-size: 16px;
-    letter-spacing: 1px;
-    box-shadow: 0 0 16px rgba(77, 166, 255, .22), inset 0 0 10px rgba(77, 166, 255, .06);
-    transition: background-color .2s, color .2s, box-shadow .2s, transform .15s;
-    animation: breathe 3s ease-in-out infinite;
-  }
-  .home .go-btn:hover {
-    background: var(--accent);
-    color: #0d1218;
-    box-shadow: 0 0 30px rgba(77, 166, 255, .6), inset 0 0 12px rgba(13, 18, 24, .2);
-    transform: translateY(-1px);
-  }
-
-  /* 首页入场：标题、副标题、按钮依次浮现 */
-  .view.in h1, .view.in .sub, .view.in .go-btn {
-    animation: rise .55s ease-out both;
-  }
-  .view.in .sub { animation-delay: .12s; }
-  .view.in .go-btn { animation-delay: .24s; }
-
-  /* ===== 教程 ===== */
-  .tut-head2 {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 6px;
-  }
-  .tut-head2 h2 {
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #c9e4ff;
-    text-shadow: 0 0 10px rgba(77, 166, 255, .4);
-  }
-  .tut-head2 .note { color: var(--muted); font-size: 14px; }
-  .tut-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-top: 22px;
-  }
-  .tut-card {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--bg-soft);
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .tut-card:hover {
-    border-color: rgba(77, 166, 255, .45);
-    box-shadow: 0 0 18px rgba(77, 166, 255, .12);
-  }
-  .tut-head {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .tut-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #d8ecff;
-  }
-  .tut-title small {
-    margin-left: 6px;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--muted);
-  }
-  .tut-desc {
-    flex: 1;
-    font-size: 14px;
-    color: var(--muted);
-    min-width: 120px;
-  }
-  .tut-toggle {
-    font-size: 14px;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .tut-code {
-    display: none;
-    margin-top: 12px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    background: #0a0f14;
-    border: 1px solid var(--line);
-    overflow-x: auto;
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #c9e2ff;
-  }
-  .tut-card.open .tut-code { display: block; }
-  .view.in h2 { animation: rise .5s ease-out both; }
-
-  /* ===== 交流群 ===== */
-  .group { padding-top: 24px; text-align: center; }
-  .group h2 {
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #c9e4ff;
-    text-shadow: 0 0 10px rgba(77, 166, 255, .4);
-  }
-  .group .group-num {
-    margin: 26px 0 8px;
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-size: clamp(34px, 8vw, 52px);
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: #d8ecff;
-    text-shadow:
-      0 0 8px rgba(77, 166, 255, .7),
-      0 0 22px rgba(77, 166, 255, .45),
-      0 0 55px rgba(77, 166, 255, .25);
-  }
-  .group p { color: var(--muted); font-size: 15px; margin-top: 6px; }
-  .group .copy-btn {
-    display: inline-block;
-    margin-top: 26px;
-    padding: 10px 26px;
-    border: 1.5px solid var(--accent);
-    border-radius: 8px;
-    color: var(--accent);
-    background: var(--accent-dim);
-    font-size: 15px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    font-family: inherit;
-    box-shadow: 0 0 16px rgba(77, 166, 255, .22), inset 0 0 10px rgba(77, 166, 255, .06);
-    transition: background-color .2s, color .2s, box-shadow .2s, transform .15s;
-  }
-  .group .copy-btn:hover {
-    background: var(--accent);
-    color: #0d1218;
-    box-shadow: 0 0 28px rgba(77, 166, 255, .55), inset 0 0 12px rgba(13, 18, 24, .2);
-    transform: translateY(-1px);
-  }
-  .view.in h2, .view.in .group-num, .view.in .copy-btn {
-    animation: rise .5s ease-out both;
-  }
-
-  /* ===== 关于 ===== */
-  .about h2 {
-    font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 18px;
-    color: #c9e4ff;
-    text-shadow: 0 0 10px rgba(77, 166, 255, .4);
-  }
-  .about p { margin-bottom: 10px; }
-  .about .to-tut {
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .about .to-tut:hover { text-decoration: underline; }
-
-  /* ===== 页脚 ===== */
-  footer {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 18px 20px 30px;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  /* ===== 动画 ===== */
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: none; }
-  }
-  @keyframes viewIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes breathe {
-    0%, 100% { box-shadow: 0 0 16px rgba(77, 166, 255, .22), inset 0 0 10px rgba(77, 166, 255, .06); }
-    50%      { box-shadow: 0 0 26px rgba(77, 166, 255, .38), inset 0 0 10px rgba(77, 166, 255, .1); }
-  }
-
-  @media (max-width: 640px) {
-    .tut-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 520px) {
-    main { padding-top: 28px; }
-    .bar { padding: 8px 14px; }
-    .home { padding-top: 40px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
+body{
+    font-family: "Microsoft YaHei", sans-serif;
+    background:#f2f2f2;
+    margin:0;
+    padding:40px 15px;
+    color:#333;
+}
+.box{
+    width:640px;
+    max-width:100%;
+    margin:0 auto;
+    background:#fff;
+    padding:35px 40px;
+    border:1px solid #ddd;
+}
+h1{
+    font-size:20px;
+    font-weight:normal;
+    margin:0 0 5px 0;
+}
+.date{
+    font-size:12px;
+    color:#999;
+    margin-bottom:25px;
+}
+.search{
+    margin-bottom:25px;
+}
+.search input{
+    width:70%;
+    padding:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+    font-family:inherit;
+    outline:none;
+}
+.search input:focus{
+    border-color:#666;
+}
+.search button{
+    padding:8px 20px;
+    border:1px solid #ccc;
+    background:#eee;
+    font-size:14px;
+    font-family:inherit;
+    cursor:pointer;
+    margin-left:-5px;
+}
+.search button:hover{
+    background:#ddd;
+}
+.item{
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+.item h2{
+    font-size:16px;
+    font-weight:normal;
+    margin:0 0 8px 0;
+}
+.item h2 a{
+    color:#1a5fb4;
+    text-decoration:none;
+}
+.item h2 a:hover{
+    text-decoration:underline;
+}
+.item .info{
+    font-size:13px;
+    color:#888;
+    margin-bottom:8px;
+}
+.item .info span{
+    margin-right:18px;
+}
+.item p{
+    font-size:13px;
+    color:#555;
+    line-height:1.8;
+    margin:0 0 10px 0;
+}
+.item .dl{
+    font-size:13px;
+}
+.item .dl a{
+    color:#1a5fb4;
+    text-decoration:none;
+}
+.item .dl a:hover{
+    text-decoration:underline;
+}
+.empty{
+    text-align:center;
+    padding:50px 0;
+    color:#999;
+    font-size:14px;
+}
+.foot{
+    margin-top:35px;
+    padding-top:15px;
+    border-top:1px solid #eee;
+    font-size:12px;
+    color:#bbb;
+    text-align:center;
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="bar">
-    <a href="#/home" class="site-name">小腾</a>
-    <nav>
-      <a href="#/home" data-view="home">首页</a>
-      <a href="#/tutorial" data-view="tutorial">教程</a>
-      <a href="#/group" data-view="group">交流群</a>
-      <a href="#/about" data-view="about">关于</a>
-    </nav>
-  </div>
-</header>
+<div class="box">
+    <h1>软件分享站</h1>
+    <div class="date">更新于 2025-01-15</div>
 
-<main>
-  <!-- ===== 视图：首页 ===== -->
-  <section class="view home" id="view-home">
-    <h1>我是小腾</h1>
-    <p class="sub">这个站放我学 C++ 的笔记，还有一个 QQ 交流群。</p>
-    <a class="go-btn" href="#/tutorial">看教程</a>
-  </section>
-
-  <!-- ===== 视图：教程 ===== -->
-  <section class="view" id="view-tutorial">
-    <div class="tut-head2">
-      <h2>C++ 教程</h2>
-      <span class="note">都是基础，我边学边记的。点卡片展开代码。</span>
+    <div class="search">
+        <input type="text" id="kw" placeholder="输入关键词搜索">
+        <button onclick="searchIt()">搜索</button>
     </div>
 
-    <div class="tut-grid">
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">变量<small>int / double / char</small></span>
-          <span class="tut-desc">先定类型再起名，整数用 int，小数用 double。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>int age = 13;
-double pi = 3.14;
-char c = 'A';
-string name = "小腾";</code></pre>
-      </article>
+    <div id="main">
 
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">数组<small>array</small></span>
-          <span class="tut-desc">一串同类型的数据，用下标访问，从 0 开始数。</span>
-          <span class="tut-toggle">展开</span>
+        <div class="item">
+            <h2><a href="https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file" target="_blank">SP970 刷机包</a></h2>
+            <div class="info">
+                <span>大小：450 MB</span>
+                <span>下载量：0 次</span>
+            </div>
+            <p>适用于 SP970 设备的完整固件包，包含系统镜像和刷机工具。刷机前请备份好数据，保持电量充足。</p>
+            <div class="dl">
+                <a href="https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file" target="_blank">下载地址 →</a>
+            </div>
         </div>
-        <pre class="tut-code"><code>int a[5] = {1, 2, 3, 4, 5};
-a[0] = 99;          // 改第 1 个
-cout &lt;&lt; a[2];       // 第 3 个，是 3</code></pre>
-      </article>
 
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">字符串<small>string</small></span>
-          <span class="tut-desc">存文字用的，长度、拼接都有人写好。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>string s = "hello";
-cout &lt;&lt; s.size();   // 长度，5
-s += " world";      // 拼接</code></pre>
-      </article>
-
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">指针<small>pointer</small></span>
-          <span class="tut-desc">存地址的变量，* 取值，&amp; 取址。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>int x = 10;
-int* p = &amp;x;    // p 存 x 的地址
-cout &lt;&lt; *p;     // 取地址里的值，10</code></pre>
-      </article>
-
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">条件判断<small>if / else</small></span>
-          <span class="tut-desc">成立走 if，不成立走 else。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>int score = 85;
-if (score &gt;= 60) {
-    cout &lt;&lt; "及格";
-} else {
-    cout &lt;&lt; "不及格";
-}</code></pre>
-      </article>
-
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">for 循环<small>for</small></span>
-          <span class="tut-desc">知道循环几次就用它。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>for (int i = 0; i &lt; 5; i++) {
-    cout &lt;&lt; i &lt;&lt; " ";   // 0 1 2 3 4
-}</code></pre>
-      </article>
-
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">while 循环<small>while</small></span>
-          <span class="tut-desc">条件成立就一直循环，注意别写成死循环。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>int n = 0;
-while (n &lt; 5) {
-    n++;
-}
-cout &lt;&lt; n;   // 5</code></pre>
-      </article>
-
-      <article class="tut-card" role="button" tabindex="0" onclick="toggleCard(this)">
-        <div class="tut-head">
-          <span class="tut-title">函数<small>function</small></span>
-          <span class="tut-desc">把一段逻辑包起来起个名，到处调用。</span>
-          <span class="tut-toggle">展开</span>
-        </div>
-        <pre class="tut-code"><code>int add(int a, int b) {
-    return a + b;
-}
-int sum = add(3, 4);   // 7</code></pre>
-      </article>
     </div>
-  </section>
 
-  <!-- ===== 视图：交流群 ===== -->
-  <section class="view group" id="view-group">
-    <h2>QQ C++ 交流群</h2>
-    <div class="group-num">1128639237</div>
-    <p>在 QQ 里搜这个群号就能加进来。</p>
-    <button class="copy-btn" onclick="copyGroup(this)">复制群号</button>
-  </section>
-
-  <!-- ===== 视图：关于 ===== -->
-  <section class="view about" id="view-about">
-    <h2>关于</h2>
-    <p>我是小腾，这是我自己的主页。</p>
-    <p>现在放了一些 C++ 基础笔记和一个交流群，以后想到什么再往这放。</p>
-    <p>想学 C++ 的，去<a class="to-tut" href="#/tutorial">教程</a>翻翻。</p>
-  </section>
-</main>
-
-<footer>
-  <span>小腾的主页</span>
-  <span>2026</span>
-</footer>
+    <div class="foot">软件分享站</div>
+</div>
 
 <script>
-  var views = ["home", "tutorial", "group", "about"];
+// 存一下原始列表，搜索没结果之后好还原
+var mainBox = document.getElementById('main');
+var oldHTML = mainBox.innerHTML;
 
-  function toggleCard(card) {
-    card.classList.toggle("open");
-    var t = card.querySelector(".tut-toggle");
-    t.textContent = card.classList.contains("open") ? "收起" : "展开";
-  }
+function searchIt(){
+    var word = document.getElementById('kw').value.trim().toLowerCase();
 
-  function copyGroup(btn) {
-    var num = "1128639237";
-    var ok = function () {
-      var old = btn.textContent;
-      btn.textContent = "已复制";
-      setTimeout(function () { btn.textContent = old; }, 2000);
-    };
-    var fallback = function () {
-      var ta = document.createElement("textarea");
-      ta.value = num;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand("copy"); ok(); } catch (e) {}
-      document.body.removeChild(ta);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(num).then(ok, fallback);
-    } else {
-      fallback();
+    // 空的话直接还原
+    if(word === ''){
+        mainBox.innerHTML = oldHTML;
+        return;
     }
-  }
 
-  document.querySelectorAll(".tut-card").forEach(function (c) {
-    c.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleCard(c);
-      }
-    });
-  });
+    // 目前就一个资源，关键词沾边就显示
+    if(word.indexOf('sp970') !== -1 || word.indexOf('刷机') !== -1 || word.indexOf('固件') !== -1 || word.indexOf('包') !== -1){
+        mainBox.innerHTML = oldHTML;
+    } else {
+        mainBox.innerHTML = '<div class="empty">没找到相关内容</div>';
+    }
+}
 
-  function replay(viewEl) {
-    viewEl.classList.remove("in");
-    void viewEl.offsetWidth;
-    viewEl.classList.add("in");
-  }
-
-  function route() {
-    var target = (location.hash || "").replace(/^#\//, "") || "home";
-    if (views.indexOf(target) === -1) target = "home";
-
-    views.forEach(function (name) {
-      var el = document.getElementById("view-" + name);
-      if (el) el.classList.toggle("active", name === target);
-    });
-
-    var links = document.querySelectorAll('nav a[data-view]');
-    links.forEach(function (a) {
-      var active = a.getAttribute("data-view") === target;
-      a.classList.toggle("active", active);
-      if (active) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
-    });
-
-    replay(document.getElementById("view-" + target));
-  }
-
-  window.addEventListener("hashchange", route);
-  route();
+// 回车也能搜
+document.getElementById('kw').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+        searchIt();
+    }
+});
 </script>
+
 </body>
 </html>
