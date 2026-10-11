@@ -95,6 +95,10 @@ h1{
 .item .dl a:hover{
     text-decoration:underline;
 }
+.item .code{
+    color:#c00;
+    font-weight:bold;
+}
 .empty{
     text-align:center;
     padding:50px 0;
@@ -123,6 +127,19 @@ h1{
     </div>
 
     <div id="main">
+
+        <div class="item">
+            <h2><a href="https://yun.139.com/shareweb/#/w/i/2ygb7wmcMSB36" target="_blank">安卓 5.1.1</a></h2>
+            <div class="info">
+                <span>大小：待补充</span>
+                <span>下载量：0 次</span>
+            </div>
+            <p>安卓 5.1.1 系统镜像/刷机包。中国移动云盘分享，提取码 <span class="code">w7c2</span>。</p>
+            <div class="dl">
+                <a href="https://yun.139.com/shareweb/#/w/i/2ygb7wmcMSB36" target="_blank">下载地址 →</a>
+                <span style="color:#888;">（提取码：<span class="code">w7c2</span>）</span>
+            </div>
+        </div>
 
         <div class="item">
             <h2><a href="https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file" target="_blank">SP970 刷机包</a></h2>
@@ -155,8 +172,9 @@ function searchIt(){
         return;
     }
 
-    // 目前就一个资源，关键词沾边就显示
-    if(word.indexOf('sp970') !== -1 || word.indexOf('刷机') !== -1 || word.indexOf('固件') !== -1 || word.indexOf('包') !== -1){
+    // 关键词匹配
+    if(word.indexOf('安卓') !== -1 || word.indexOf('5.1') !== -1 || word.indexOf('android') !== -1 ||
+       word.indexOf('sp970') !== -1 || word.indexOf('刷机') !== -1 || word.indexOf('固件') !== -1){
         mainBox.innerHTML = oldHTML;
     } else {
         mainBox.innerHTML = '<div class="empty">没找到相关内容</div>';
