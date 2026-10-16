@@ -119,74 +119,118 @@ h1{
 
 <div class="box">
     <h1>软件分享站</h1>
-    <div class="date">更新于 2025-01-15</div>
+    <div class="date" id="updateDate"></div>
 
     <div class="search">
         <input type="text" id="kw" placeholder="输入关键词搜索">
         <button onclick="searchIt()">搜索</button>
     </div>
 
-    <div id="main">
-
-        <div class="item">
-            <h2><a href="https://yun.139.com/shareweb/#/w/i/2ygb7wmcMSB36" target="_blank">安卓 5.1.1</a></h2>
-            <div class="info">
-                <span>大小：待补充</span>
-                <span>下载量：0 次</span>
-            </div>
-            <p>安卓 5.1.1 系统镜像/刷机包。中国移动云盘分享，提取码 <span class="code">w7c2</span>。</p>
-            <div class="dl">
-                <a href="https://yun.139.com/shareweb/#/w/i/2ygb7wmcMSB36" target="_blank">下载地址 →</a>
-                <span style="color:#888;">（提取码：<span class="code">w7c2</span>）</span>
-            </div>
-        </div>
-
-        <div class="item">
-            <h2><a href="https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file" target="_blank">SP970 刷机包</a></h2>
-            <div class="info">
-                <span>大小：450 MB</span>
-                <span>下载量：0 次</span>
-            </div>
-            <p>适用于 SP970 设备的完整固件包，包含系统镜像和刷机工具。刷机前请备份好数据，保持电量充足。</p>
-            <div class="dl">
-                <a href="https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file" target="_blank">下载地址 →</a>
-            </div>
-        </div>
-
-    </div>
+    <div id="main"></div>
 
     <div class="foot">软件分享站</div>
 </div>
 
 <script>
-// 存一下原始列表，搜索没结果之后好还原
+// 数据直接写这儿，加资源就往数组里塞一个
+var data = {
+    updateDate: "2026-10-16",
+    items: [
+        {
+            name: "jz02.zip",
+            url: "https://1827460910.share.123pan.cn/123pan/V3t0jv-MqO4A?pwd=1145",
+            code: "1145",
+            size: "待补充",
+            downloads: 0,
+            keywords: "jz02 jz 02 zip 包",
+            desc: "来自123云盘用户15816403975的分享，文件名 jz02.zip。"
+        },
+        {
+            name: "酷安广大网友提供（大部分包）",
+            url: "https://1816092521.share.123pan.cn/123pan/iDQ5Vv-0FbuA?pwd=nFY",
+            code: "nFY",
+            size: "待补充",
+            downloads: 0,
+            keywords: "酷安 大部分 123 合集",
+            desc: "酷安网友分享的合集包，123 云盘不限速下载。"
+        },
+        {
+            name: "安卓 5.1.1",
+            url: "https://yun.139.com/shareweb/#/w/i/2ygb7wmcMSB36",
+            code: "w7c2",
+            size: "待补充",
+            downloads: 0,
+            keywords: "安卓 android 5.1 系统 镜像",
+            desc: "安卓 5.1.1 系统镜像/刷机包，中国移动云盘分享。"
+        },
+        {
+            name: "SP970 刷机包",
+            url: "https://www.mediafire.com/file/93u1tms5xv7bf2a/SP970.zip/file",
+            code: "",
+            size: "450 MB",
+            downloads: 0,
+            keywords: "sp970 刷机 固件",
+            desc: "适用于 SP970 设备的完整固件包，包含系统镜像和刷机工具。刷机前请备份好数据，保持电量充足。"
+        }
+    ]
+};
+
+var allItems = data.items;
 var mainBox = document.getElementById('main');
-var oldHTML = mainBox.innerHTML;
+document.getElementById('updateDate').textContent = '更新于 ' + data.updateDate;
+
+function renderList(items){
+    if(items.length === 0){
+        mainBox.innerHTML = '<div class="empty">没找到相关内容</div>';
+        return;
+    }
+
+    var html = '';
+    items.forEach(function(item){
+        var codeHtml = item.code ? '（提取码：<span class="code">' + item.code + '</span>）' : '';
+        var sizeHtml = item.size ? '<span>大小：' + item.size + '</span>' : '<span>大小：待补充</span>';
+        var dlCount = item.downloads ? item.downloads + ' 次' : '0 次';
+
+        html += '<div class="item">';
+        html += '<h2><a href="' + item.url + '" target="_blank">' + item.name + '</a></h2>';
+        html += '<div class="info">';
+        html += sizeHtml;
+        html += '<span>下载量：' + dlCount + '</span>';
+        html += '</div>';
+        html += '<p>' + item.desc + '</p>';
+        html += '<div class="dl">';
+        html += '<a href="' + item.url + '" target="_blank">下载地址 →</a> ';
+        html += codeHtml;
+        html += '</div>';
+        html += '</div>';
+    });
+
+    mainBox.innerHTML = html;
+}
 
 function searchIt(){
     var word = document.getElementById('kw').value.trim().toLowerCase();
 
-    // 空的话直接还原
     if(word === ''){
-        mainBox.innerHTML = oldHTML;
+        renderList(allItems);
         return;
     }
 
-    // 关键词匹配
-    if(word.indexOf('安卓') !== -1 || word.indexOf('5.1') !== -1 || word.indexOf('android') !== -1 ||
-       word.indexOf('sp970') !== -1 || word.indexOf('刷机') !== -1 || word.indexOf('固件') !== -1){
-        mainBox.innerHTML = oldHTML;
-    } else {
-        mainBox.innerHTML = '<div class="empty">没找到相关内容</div>';
-    }
+    var filtered = allItems.filter(function(item){
+        var text = (item.name + ' ' + item.desc + ' ' + (item.keywords || '')).toLowerCase();
+        return text.indexOf(word) !== -1;
+    });
+
+    renderList(filtered);
 }
 
-// 回车也能搜
 document.getElementById('kw').addEventListener('keydown', function(e){
     if(e.key === 'Enter'){
         searchIt();
     }
 });
+
+renderList(allItems);
 </script>
 
 </body>
